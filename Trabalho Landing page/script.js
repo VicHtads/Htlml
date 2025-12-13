@@ -2,80 +2,107 @@
 let ventiladores = [];
 let productsFiltered = [];
 let currentPage = 1;
-const productsPerPage = 9;
+const productsPerPage = 8; // Ajustado para grid
 
 // Carregar dados do JSON
 async function loadVentiladores() {
     try {
-        console.log('Iniciando carregamento do JSON...');
         const response = await fetch('ventiladores.json');
-        console.log('Response status:', response.status);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
         ventiladores = await response.json();
-        console.log('Ventiladores carregados:', ventiladores.length, 'produtos');
-        
         productsFiltered = [...ventiladores];
+        
+        // Renderiza elementos iniciais
+        renderFeaturedProducts();
         renderProducts();
     } catch (error) {
         console.error('Erro ao carregar JSON:', error);
-        const container = document.getElementById('productsContainer');
-        if (container) {
-            container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red; padding: 2rem;">
-                ❌ Erro ao carregar produtos. Verifique se o arquivo <strong>ventiladores.json</strong> está na mesma pasta que index.html.<br/>
-                Erro: ${error.message}
-            </p>`;
-        }
+        document.getElementById('productsContainer').innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; background: #fff0f0; border-radius: 10px; color: #d32f2f;">
+                <h3>😕 Ops! Algo deu errado.</h3>
+                <p>Não conseguimos carregar os produtos no momento.</p>
+                <small>${error.message}</small>
+            </div>
+        `;
     }
 }
 
+// Renderiza os 3 primeiros produtos na Home (Destaques)
+function renderFeaturedProducts() {
+    const container = document.getElementById('featuredContainer');
+    if (!container) return;
+
+    const featured = ventiladores.slice(0, 3); // Pega os 3 primeiros
+    
+    container.innerHTML = featured.map(product => `
+        <div class="product-card">
+            <div class="product-image" style="height: 180px;">
+                <img src="${product.imagem}" alt="${product.nome}" style="width:100%; height:100%; object-fit:contain;" onerror="this.src='https://via.placeholder.com/200?text=Ventilador'">
+            </div>
+            <div class="product-info">
+                <div class="product-name" style="font-size: 1rem;">${product.nome}</div>
+                <div class="product-price">R$ ${product.preco.toFixed(2)}</div>
+                <button class="btn btn-primary" style="width:100%; font-size: 0.9rem;" onclick="openModal(${product.id})">Espiar</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Renderiza o Catálogo Completo
 function renderProducts() {
-    console.log('Renderizando produtos. Total:', ventiladores.length);
-    
-    if (ventiladores.length === 0) {
-        console.warn('Nenhum produto disponível');
-        return;
-    }
-    
     const container = document.getElementById('productsContainer');
-    if (!container) {
-        console.error('Container não encontrado!');
-        return;
-    }
+    if (!container) return;
     
     container.innerHTML = '';
     
+    if (productsFiltered.length === 0) {
+        container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 2rem;">Nenhum produto encontrado com estes filtros.</div>';
+        return;
+    }
+
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = startIndex + productsPerPage;
     const paginated = productsFiltered.slice(startIndex, endIndex);
-
-    console.log(`Mostrando produtos de ${startIndex} a ${endIndex}. Total filtrado: ${productsFiltered.length}`);
-
-    if (paginated.length === 0) {
-        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Nenhum produto encontrado.</p>';
-        return;
-    }
 
     paginated.forEach(product => {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
-            <img src="${product.imagem}" alt="${product.nome}" class="product-image" onerror="this.src='https://via.placeholder.com/200?text=Ventilador'">
+            <div class="product-image">
+                <img src="${product.imagem}" alt="${product.nome}" style="width:100%; height:100%; object-fit:contain;" onerror="this.src='https://via.placeholder.com/200?text=Ventilador'">
+            </div>
             <div class="product-info">
                 <div class="product-name">${product.nome}</div>
-                <div class="product-potencia">⚡ ${product.potencia}</div>
-                <div class="product-description">${product.descricao.substring(0, 80)}...</div>
+                <div><span class="product-potencia">⚡ ${product.potencia}</span></div>
+                <div class="product-description">${product.descricao.substring(0, 60)}...</div>
                 <div class="product-price">R$ ${product.preco.toFixed(2)}</div>
-                <button class="btn btn-primary" onclick="openModal(${product.id})">Ver Detalhes</button>
+                <button class="btn btn-primary full-width" onclick="openModal(${product.id})">Ver Detalhes</button>
             </div>
         `;
         container.appendChild(card);
     });
 
     renderPagination();
+}
+
+// Função para filtrar via cards da Home
+function filterAndScroll(searchTerm) {
+    // Vai para a aba catálogo
+    showSection('catalog');
+    
+    // Define o valor no input de busca
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.value = searchTerm;
+        // Dispara a função de filtro existente
+        filterProducts();
+    }
+    
+    // Rola até o topo da lista de produtos
+    setTimeout(() => {
+        scrollToElement('catalog');
+    }, 100);
 }
 
 function renderPagination() {
@@ -94,7 +121,7 @@ function renderPagination() {
         button.onclick = () => {
             currentPage = i;
             renderProducts();
-            document.querySelector('.catalog')?.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
         };
         pagination.appendChild(button);
     }
@@ -108,7 +135,6 @@ function filterProducts() {
     productsFiltered = ventiladores.filter(product =>
         product.nome.toLowerCase().includes(searchTerm)
     );
-    console.log('Filtrados:', productsFiltered.length, 'produtos');
     currentPage = 1;
     renderProducts();
 }
@@ -130,10 +156,10 @@ function sortProducts() {
             productsFiltered.sort((a, b) => b.preco - a.preco);
             break;
         case 'potencia':
+            // Extrai números da string (ex: "120W" -> 120)
             productsFiltered.sort((a, b) => parseInt(b.potencia) - parseInt(a.potencia));
             break;
     }
-    console.log('Ordenação aplicada:', sortValue);
     currentPage = 1;
     renderProducts();
 }
@@ -154,64 +180,57 @@ function closeModal() {
     document.getElementById('productModal').style.display = 'none';
 }
 
-function showSection(section) {
+function showSection(sectionId) {
+    // Esconde todas as seções
     document.querySelectorAll('.page-section').forEach(el => el.style.display = 'none');
-    const targetSection = document.getElementById(section);
-    if (targetSection) targetSection.style.display = 'block';
     
-    document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-    document.querySelector(`[data-section="${section}"]`)?.classList.add('active');
-    
-    // Se for catálogo, reinicializar filtros
-    if (section === 'catalog') {
-        const searchInput = document.getElementById('searchInput');
-        const sortSelect = document.getElementById('sortSelect');
-        if (searchInput) searchInput.value = '';
-        if (sortSelect) sortSelect.value = 'nome';
-        productsFiltered = [...ventiladores];
-        currentPage = 1;
+    // Mostra a alvo
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.style.display = 'block';
+        // Adiciona classe de animação
+        targetSection.classList.remove('fade-in');
+        void targetSection.offsetWidth; // trigger reflow
+        targetSection.classList.add('fade-in');
     }
     
-    // Fechar menu em mobile
-    document.getElementById('mainNav')?.classList.remove('active');
+    // Atualiza menu
+    document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+    document.querySelector(`[data-section="${sectionId}"]`)?.classList.add('active');
     
-    window.scrollTo(0, 0);
+    // Reseta filtros se for catálogo
+    if (sectionId === 'catalog') {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput && !searchInput.value) { // Só reseta se estiver vazio
+            productsFiltered = [...ventiladores];
+            currentPage = 1;
+            renderProducts();
+        }
+    }
+    
+    document.getElementById('mainNav').classList.remove('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function scrollToElement(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
 function toggleMenu() {
     const nav = document.getElementById('mainNav');
-    if (nav) nav.classList.toggle('active');
-}
-
-// Fechar menu ao clicar em um link (mobile)
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', function() {
-        document.getElementById('mainNav')?.classList.remove('active');
-    });
-});
-
-// Formulário de contato
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const name = this.name.value;
-        alert(`Obrigado ${name}! Sua mensagem foi enviada com sucesso. Entraremos em contato em breve.`);
-        this.reset();
-    });
+    nav.classList.toggle('active');
 }
 
 // Fechar modal ao clicar fora
 window.onclick = function(event) {
     const modal = document.getElementById('productModal');
     if (event.target === modal) {
-        modal.style.display = 'none';
+        closeModal();
     }
 }
 
-// Carregar ventiladores quando o documento estiver pronto
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadVentiladores);
-} else {
-    loadVentiladores();
-}
+// Inicialização
+document.addEventListener('DOMContentLoaded', loadVentiladores);

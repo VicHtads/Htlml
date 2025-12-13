@@ -3,212 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ventiladores Palmas Mondial - Conforto e Qualidade</title>
+    <title>Palmas Mondial | Ventilação Premium</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-    <!-- HEADER -->
     <header>
         <div class="header-content">
-            <div class="logo">✇༄ Palmas Mondial</div>
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <div class="logo" onclick="showSection('home')" style="cursor: pointer;">
+                <span class="material-icons">wind_power</span> Palmas Mondial
+            </div>
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <span class="material-icons">menu</span>
+            </button>
             <nav id="mainNav">
-                <a href="#" onclick="showSection('home'); return false;" class="nav-link active" data-section="home">Home</a>
+                <a href="#" onclick="showSection('home'); return false;" class="nav-link active" data-section="home">Início</a>
                 <a href="#" onclick="showSection('catalog'); return false;" class="nav-link" data-section="catalog">Catálogo</a>
                 <a href="#" onclick="showSection('about'); return false;" class="nav-link" data-section="about">Sobre</a>
                 <a href="#" onclick="showSection('contact'); return false;" class="nav-link" data-section="contact">Contato</a>
+                <a href="#" onclick="showSection('catalog'); return false;" class="btn-nav">Comprar Agora</a>
             </nav>
         </div>
     </header>
 
-    <!-- HOME -->
-    <section id="home" class="page-section">
+    <section id="home" class="page-section fade-in">
         <div class="hero">
+            <div class="hero-overlay"></div>
             <div class="hero-content">
-                <h1>Ventiladores Palmas Mondial</h1>
-                <p>Conforto, silêncio e economia para todos os ambientes</p>
-                <button class="btn btn-primary" onclick="showSection('catalog')">Ver Catálogo</button>
+                <span class="badge">Novidade 2025</span>
+                <h1>Refresque seu mundo com tecnologia</h1>
+                <p>Ventiladores de alta performance, silêncio absoluto e design que combina com sua casa.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="showSection('catalog')">Ver Ofertas</button>
+                    <button class="btn btn-outline" onclick="scrollToElement('features')">Saber Mais</button>
+                </div>
+            </div>
+        </div>
+        <div class="lifestyle-grid">
+            <div class="grid-item item-large" style="background-image: url('https://m.media-amazon.com/images/I/71XXA3vlVtL._AC_UF894,1000_QL80_.jpg');">
+                <div class="grid-content">
+                    <h3>Para sua Sala</h3>
+                    <p>Design que compõe a decoração.</p>
+                    <button class="btn-text" onclick="filterAndScroll('sala')">Ver Modelos &rarr;</button>
+                </div>
+            </div>
+            <div class="grid-item" style="background-image: url('https://images.unsplash.com/photo-1519710164239-da123dc03ef4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');">
+                <div class="grid-content">
+                    <h3>Home Office</h3>
+                    <p>Foco total com silêncio.</p>
+                    <button class="btn-text" onclick="filterAndScroll('mesa')">Ver Modelos &rarr;</button>
+                </div>
+            </div>
+            <div class="grid-item" style="background-image: url('https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');">
+                <div class="grid-content">
+                    <h3>Dormir Bem</h3>
+                    <p>Brisa suave e constante.</p>
+                    <button class="btn-text" onclick="filterAndScroll('silent')">Ver Modelos &rarr;</button>
+                </div>
             </div>
         </div>
 
-        <div class="features">
-            <h2>Por que Palmas Mondial?</h2>
+        <div class="promo-banner">
+            <div class="promo-content">
+                <h2>Oferta de Verão</h2>
+                <p>Frete Grátis para todo o Brasil em compras acima de R$ 299,00</p>
+                <div class="timer">⏳ Oferta por tempo limitado</div>
+                <button class="btn btn-primary" onclick="showSection('catalog')">Aproveitar Agora</button>
+            </div>
+        </div>
+        
+        <div class="features" id="features">
+            <div class="section-header">
+                <h2>Por que escolher a Palmas Mondial?</h2>
+                <div class="divider"></div>
+            </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">⚙️</div>
-                    <h3>Durabilidade</h3>
-                    <p>Construídos com materiais resistentes para acompanhar você por muitos verões.</p>
+                    <div class="icon-bg"><span class="material-icons">verified_user</span></div>
+                    <h3>Durabilidade Extrema</h3>
+                    <p>Motores testados para resistir a anos de uso contínuo sem perder a potência.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🔇</div>
-                    <h3>Silêncio</h3>
-                    <p>Seu sono preservado com a sutileza dos nossos ventiladores.</p>
+                    <div class="icon-bg"><span class="material-icons">volume_off</span></div>
+                    <h3>Ultra Silencioso</h3>
+                    <p>Tecnologia Silent Power™ que garante seu sono tranquilo e ambiente de trabalho focado.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">💰</div>
-                    <h3>Custo-benefício</h3>
-                    <p>Mais desempenho gastando menos: qualidade que cabe no seu bolso.</p>
+                    <div class="icon-bg"><span class="material-icons">bolt</span></div>
+                    <h3>Economia A+</h3>
+                    <p>Eficiência energética que você sente na conta de luz no final do mês.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="catalog highlight-section">
+            <div class="section-header">
+                <h2>Mais Vendidos</h2>
+                <p>Os favoritos dos nossos clientes</p>
+                <div class="divider"></div>
+            </div>
+            <div class="products-grid" id="featuredContainer">
+                </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-secondary" onclick="showSection('catalog')">Ver Todos os Modelos</button>
+            </div>
+        </div>
+
+        <div class="testimonials-section">
+            <div class="section-header">
+                <h2>O que dizem nossos clientes</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"O modelo Turbo Silent mudou minhas noites de sono. Realmente não faz barulho nenhum!"</p>
+                    <div class="author">- Ana Clara, SP</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Comprei para meu escritório e o design impressionou a todos. Potente e bonito."</p>
+                    <div class="author">- Roberto Mendes, RJ</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CATALOGO -->
     <section id="catalog" class="page-section" style="display: none;">
         <div class="catalog">
-            <h2>Catálogo Completo</h2>
+            <div class="section-header">
+                <h2>Catálogo Completo</h2>
+                <div class="divider"></div>
+            </div>
             
             <div class="filters">
                 <div class="search-container">
-                    <label>🔍 Buscar:</label>
-                    <input type="text" id="searchInput" placeholder="Digite o nome do ventilador..." onkeyup="filterProducts()">
+                    <span class="material-icons search-icon">search</span>
+                    <input type="text" id="searchInput" placeholder="Qual ventilador você procura?" onkeyup="filterProducts()">
                 </div>
-                <div>
-                    <label>Ordenar por:</label>
+                <div class="sort-container">
+                    <span class="material-icons">sort</span>
                     <select id="sortSelect" onchange="sortProducts()">
-                        <option value="nome">Nome</option>
+                        <option value="nome">Ordenar por Nome</option>
                         <option value="preco-asc">Menor Preço</option>
                         <option value="preco-desc">Maior Preço</option>
-                        <option value="potencia">Potência</option>
+                        <option value="potencia">Maior Potência</option>
                     </select>
                 </div>
             </div>
 
             <div class="products-grid" id="productsContainer"></div>
-            
             <div class="pagination" id="pagination"></div>
         </div>
     </section>
 
-    <!-- SOBRE -->
     <section id="about" class="page-section" style="display: none;">
+        <div class="about-hero">
+            <div class="about-content">
+                <h2>Nossa História</h2>
+                <p>Há mais de 20 anos inovando em climatização.</p>
+            </div>
+        </div>
         <div class="features" style="text-align: center;">
-            <h2>Sobre Palmas Mondial</h2>
-            <p style="font-size: 1.1rem; max-width: 800px; margin: 2rem auto;">
-                A Palmas Mondial é uma empresa líder em soluções de ventilação com mais de 20 anos de experiência. 
-                Nossos produtos são desenvolvidos com tecnologia de ponta para garantir o máximo de conforto e eficiência energética.
+            <p style="font-size: 1.2rem; max-width: 800px; margin: 2rem auto; line-height: 1.8;">
+                A <strong>Palmas Mondial</strong> não vende apenas ventiladores; entregamos conforto. 
+                Nossos engenheiros trabalham incansavelmente para unir a aerodinâmica avançada 
+                com designs que complementam a decoração da sua casa.
             </p>
-            <p style="font-size: 1rem; max-width: 800px; margin: 2rem auto;">
-                Estamos comprometidos com a qualidade, durabilidade e satisfação do cliente em cada ventilador que produzimos.
-            </p>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>+20 Anos</h3>
+                    <p>de Mercado</p>
+                </div>
+                <div class="stat-item">
+                    <h3>+500k</h3>
+                    <p>Clientes Felizes</p>
+                </div>
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>Nacional</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- CONTACT SECTION -->
     <section id="contact" class="page-section" style="display: none;">
         <div class="catalog">
-            <h2>Entre em Contato Conosco</h2>
-            <p style="text-align: center; color: var(--text-color); margin-bottom: 2rem;">
-                Temos prazer em ouvir de você! Envie sua mensagem e entraremos em contato em breve.
-            </p>
+            <div class="section-header">
+                <h2>Fale Conosco</h2>
+                <div class="divider"></div>
+            </div>
             
-            <div style="max-width: 800px; margin: 0 auto;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
-                    <div style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); text-align: center;">
-                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">📞</div>
-                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">Telefone</h3>
-                        <p style="color: var(--text-color);">(11) 4002-8922</p>
-                        <p style="color: #666; font-size: 0.9rem;">De segunda a sexta, 8h às 18h</p>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="info-card">
+                        <span class="material-icons">phone_in_talk</span>
+                        <h3>Atendimento</h3>
+                        <p>(11) 4002-8922</p>
                     </div>
-                    
-                    <div style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); text-align: center;">
-                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">📧</div>
-                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">Email</h3>
-                        <p style="color: var(--text-color);">contato@palmasmundial.com.br</p>
-                        <p style="color: #666; font-size: 0.9rem;">Responderemos em até 24h</p>
+                    <div class="info-card">
+                        <span class="material-icons">email</span>
+                        <h3>Email</h3>
+                        <p>sac@palmasmundial.com.br</p>
+                    </div>
+                    <div class="info-card">
+                        <span class="material-icons">location_on</span>
+                        <h3>Sede</h3>
+                        <p>Av. Paulista, 1000 - SP</p>
                     </div>
                 </div>
 
-                <form id="contactForm" style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-                    <h3 style="color: var(--dark-color); margin-bottom: 1.5rem;">Formulário de Contato</h3>
-                    
-                    <div style="margin-bottom: 1.5rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: var(--dark-color);">Nome Completo *</label>
-                        <input type="text" name="name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: var(--border-radius); font-size: 1rem;" placeholder="Seu nome">
+                <form id="contactForm" class="modern-form">
+                    <h3>Envie sua mensagem</h3>
+                    <div class="form-group">
+                        <input type="text" name="name" required placeholder=" ">
+                        <label>Nome Completo</label>
                     </div>
-
-                    <div style="margin-bottom: 1.5rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: var(--dark-color);">Email *</label>
-                        <input type="email" name="email" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: var(--border-radius); font-size: 1rem;" placeholder="seu@email.com">
+                    <div class="form-group">
+                        <input type="email" name="email" required placeholder=" ">
+                        <label>Email</label>
                     </div>
-
-                    <div style="margin-bottom: 1.5rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: var(--dark-color);">Telefone</label>
-                        <input type="tel" name="phone" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: var(--border-radius); font-size: 1rem;" placeholder="(11) 9999-9999">
-                    </div>
-
-                    <div style="margin-bottom: 1.5rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: var(--dark-color);">Assunto *</label>
-                        <select name="subject" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: var(--border-radius); font-size: 1rem;">
-                            <option value="">Selecione um assunto</option>
-                            <option value="duvida">Dúvida sobre Produto</option>
-                            <option value="reclamacao">Reclamação</option>
-                            <option value="sugestao">Sugestão</option>
-                            <option value="outro">Outro</option>
+                    <div class="form-group">
+                        <select name="subject" required>
+                            <option value="" disabled selected>Selecione o Assunto</option>
+                            <option value="vendas">Comercial</option>
+                            <option value="suporte">Suporte Técnico</option>
                         </select>
                     </div>
-
-                    <div style="margin-bottom: 1.5rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: var(--dark-color);">Mensagem *</label>
-                        <textarea name="message" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: var(--border-radius); font-size: 1rem; min-height: 150px; font-family: inherit;" placeholder="Sua mensagem aqui..."></textarea>
+                    <div class="form-group">
+                        <textarea name="message" required placeholder=" "></textarea>
+                        <label>Mensagem</label>
                     </div>
-
-                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">Enviar Mensagem</button>
+                    <button type="submit" class="btn btn-primary full-width">Enviar Mensagem</button>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- MODAL PARA DETALHES DO PRODUTO -->
     <div id="productModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <div class="modal-header">
-                <h2 id="modalTitle"></h2>
-            </div>
-            <div class="modal-body">
-                <img id="modalImage" src="" alt="" class="modal-image">
-                <div class="modal-details">
-                    <div class="detail-item">
-                        <span class="detail-label">Preço:</span>
-                        <div class="detail-value" id="modalPrice" style="font-size: 1.5rem; color: #f4a261;"></div>
+            <div class="modal-body-flex">
+                <div class="modal-img-container">
+                    <img id="modalImage" src="" alt="">
+                </div>
+                <div class="modal-info-container">
+                    <h2 id="modalTitle"></h2>
+                    <span class="modal-badge">Em Estoque</span>
+                    <div class="modal-price" id="modalPrice"></div>
+                    <div class="specs-grid">
+                        <div class="spec-item">
+                            <span class="material-icons">bolt</span>
+                            <span id="modalPotencia"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="material-icons">build</span>
+                            <span>Garantia 1 Ano</span>
+                        </div>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Potência:</span>
-                        <div class="detail-value" id="modalPotencia"></div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Descrição:</span>
-                        <div class="detail-value" id="modalDescription"></div>
-                    </div>
-                    <button class="btn btn-primary" style="width: 100%;">Adicionar ao Carrinho</button>
+                    <p id="modalDescription"></p>
+                    <button class="btn btn-primary full-width" onclick="alert('Produto adicionado ao carrinho!')">
+                        <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">shopping_cart</span> Comprar Agora
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- FOOTER -->
     <footer>
-        <p>&copy; 2024 Palmas Mondial. Todos os direitos reservados. | Qualidade e Conforto em Primeiro Lugar</p>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>Palmas Mondial</h3>
+                <p>Tecnologia e ventilação para o seu bem-estar.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Links Rápidos</h3>
+                <a href="#" onclick="showSection('home')">Home</a>
+                <a href="#" onclick="showSection('catalog')">Catálogo</a>
+                <a href="#" onclick="showSection('contact')">Suporte</a>
+            </div>
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <div class="newsletter-box">
+                    <input type="email" placeholder="Seu melhor email">
+                    <button>→</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Palmas Mondial. Todos os direitos reservados.</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
-    <script>
-        // Carregar dados do JSON ao iniciar
-        async function initApp() {
-            try {
-                const response = await fetch('ventiladores.json');
-                if (!response.ok) throw new Error('Erro ao carregar JSON');
-                window.ventiladores = await response.json();
-                renderProducts();
-            } catch (error) {
-                console.error('Erro ao carregar JSON:', error);
-                document.getElementById('productsContainer').innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Erro ao carregar produtos. Verifique se ventiladores.json está na mesma pasta.</p>';
-            }
-        }
-        
-        // Inicializar quando a página carregar
-        window.addEventListener('load', initApp);
-    </script>
 </body>
 </html>
